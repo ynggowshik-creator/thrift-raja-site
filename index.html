@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Thrift Raja: graded pre-loved shirts and jackets, sold in wholesale packs. Retail shirts available too.">
+<link rel="icon" href="logo.webp">
+<title>Thrift Raja — Thrifted &amp; Wholesale (Demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Hanken+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --ivory:#EDE8DB; --paper:#F6F2E8; --ink:#23211E; --soft:#6A655C; --line:#CFC8B6;
+  --accent:#9A6A12; /* deep mustard, from the logo sun: the only accent */
+  --display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --body:"Hanken Grotesk",system-ui,Arial,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--ivory);color:var(--ink);font:400 1.0625rem/1.6 var(--body)}
+img,svg{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(18px,4vw,48px)}
+h1,h2,h3{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.88;margin:0;letter-spacing:-.005em}
+h2{font-size:clamp(3rem,8vw,6.5rem)}
+.btn{display:inline-block;font:700 .95rem var(--body);padding:.95rem 1.6rem;border:2px solid var(--ink);background:var(--ink);color:var(--paper);text-decoration:none;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.btn:hover{background:var(--accent);border-color:var(--accent)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.demo-tag{font-weight:700;letter-spacing:.01em;color:#85580A;padding-right:.75rem;margin-right:.7rem;border-right:1px solid var(--line);white-space:nowrap}
+.d-info .demo-tag{padding:0;margin:0;border:0;font-size:.95rem}
+.sec-head p{font-size:.98rem;line-height:1.5;max-width:46ch}
+.sec-head p a{color:var(--ink);text-decoration-thickness:1px;text-underline-offset:3px;transition:color .2s}
+.sec-head p a:hover{color:var(--accent)}
+
+/* announcement + nav */
+.announce{background:var(--ink);color:var(--paper);text-align:center;font-size:.9rem;padding:.55rem 1rem}
+.announce a{color:#fff}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ivory);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:.7rem}
+.logo-img{border-radius:50%;flex:none}
+.logo-img.big{width:min(300px,70vw);height:auto}
+.contact .split{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center}
+@media (max-width:860px){.contact .split{grid-template-columns:1fr}}
+.logo{font:900 1.9rem var(--display);text-transform:uppercase;text-decoration:none;letter-spacing:.01em}
+.nav ul{display:flex;gap:2rem;list-style:none;margin:0;padding:0}
+.nav ul a{text-decoration:none;font-weight:500;padding:.3rem 0;border-bottom:2px solid transparent}
+.nav ul a:hover{border-color:var(--accent)}
+.menu-btn{display:none;background:none;border:2px solid var(--ink);padding:.4rem .8rem;font:700 .9rem var(--body);cursor:pointer}
+
+/* hero */
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(24px,4vw,64px);align-items:end;padding-top:clamp(28px,5vw,64px);padding-bottom:clamp(40px,6vw,88px)}
+.hero h1{font-size:clamp(4.2rem,13.5vw,12rem);margin-left:-.04em}
+.hero h1 span{display:block}
+.hero h1 .indent{padding-left:.9em}
+.hero p{max-width:34ch;color:var(--soft);margin:1.6rem 0 1.8rem;font-size:1.15rem}
+.cta-row{display:flex;gap:.8rem;flex-wrap:wrap}
+.photo{position:relative;aspect-ratio:4/5;background:var(--paper);border:1px solid var(--line)}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.photo .slot{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:2rem;color:var(--soft);font-size:.95rem;background:
+  repeating-linear-gradient(135deg,transparent 0 14px,rgba(154,106,18,.09) 14px 15px)}
+.photo .slot strong{display:block;font:900 1.7rem var(--display);text-transform:uppercase;color:var(--ink);margin-bottom:.4rem}
+.photo .hero-badge-unused{position:absolute;left:clamp(-44px,-3vw,-20px);bottom:clamp(-44px,-3vw,-20px);width:clamp(130px,15vw,200px);height:auto;transform:rotate(-8deg);box-shadow:0 0 0 6px var(--ivory),0 10px 24px rgba(35,33,30,.18);z-index:2}
+.photo.logo-hero{display:grid;place-items:center}
+.photo .hero-logo{width:84%;height:auto;aspect-ratio:1;box-shadow:0 14px 32px rgba(35,33,30,.2)}
+.photo figcaption{position:absolute;left:0;bottom:0;background:var(--accent);color:#fff;font-size:.8rem;font-weight:700;padding:.35rem .75rem}
+
+/* sections */
+section{padding:clamp(56px,9vw,120px) 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:2rem;flex-wrap:wrap;margin-bottom:2.2rem}
+.sec-head p{max-width:38ch;color:var(--soft);margin:0}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.chip{font:500 .95rem var(--body);padding:.5rem 1.1rem;border:1.5px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:99px;transition:background .2s,color .2s}
+.chip:hover{background:var(--line)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:clamp(18px,2.4vw,32px) clamp(14px,2vw,24px)}
+.card{background:none;border:0;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer;display:block;width:100%}
+.card .thumb{aspect-ratio:3/4;background:var(--paper);border:1px solid var(--line);position:relative;overflow:hidden}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.card:hover .thumb img,.card:focus-visible .thumb img{transform:scale(1.04)}
+.card h3{font-size:1.55rem;line-height:1;margin-top:.8rem}
+.card .meta{color:var(--soft);font-size:.92rem;margin-top:.25rem}
+.card .more{font-weight:700;font-size:.9rem;text-decoration:underline;text-underline-offset:3px}
+
+/* new arrivals: asymmetric */
+#new{background:var(--paper);border-block:1px solid var(--line)}
+.arrivals{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.arrivals .card:nth-child(1){grid-column:1/6}
+.arrivals .card:nth-child(2){grid-column:6/9;margin-top:5rem}
+.arrivals .card:nth-child(3){grid-column:9/13}
+
+/* wholesale */
+.wholesale .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,6vw,96px)}
+.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:3.2rem 1fr;gap:1rem;padding:1.3rem 0;border-top:1px solid var(--ink)}
+.steps li:last-child{border-bottom:1px solid var(--ink)}
+.steps li::before{content:counter(s);font:900 2.6rem/1 var(--display);color:var(--accent)}
+.steps b{display:block;font-size:1.1rem}
+.steps span{color:var(--soft)}
+.packs h3{font-size:2.2rem;margin:2rem 0 .6rem;display:flex;align-items:baseline;gap:.8rem}
+.packs h3:first-child{margin-top:0}
+.packs h3 span{font:500 .95rem var(--body);text-transform:none;color:var(--soft)}
+.pack-group{border-bottom:1px solid var(--ink)}
+.pack{display:grid;grid-template-columns:1fr auto;column-gap:1rem;align-items:center;padding:1rem 0;border-top:1px solid var(--ink);text-decoration:none;transition:color .2s}
+.pack .q{font-weight:700;font-size:1.1rem}
+.pack small{color:var(--soft);text-decoration:underline;text-underline-offset:3px;font-size:.88rem}
+.pack b{grid-column:2;grid-row:1/3;font:900 2.4rem/1 var(--display)}
+.pack:hover,.pack:focus-visible{color:var(--accent)}
+.pack:hover small{color:var(--accent)}
+.note{font-size:.92rem;color:var(--soft);margin-top:1.2rem}
+
+/* story */
+.story .wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:clamp(28px,6vw,96px);align-items:start}
+.story .pull{font:700 clamp(1.7rem,3.4vw,2.6rem)/1.15 var(--display);text-transform:uppercase;border-left:6px solid var(--accent);padding-left:1.2rem}
+.story p{max-width:60ch}
+
+/* contact */
+.contact{background:var(--ink);color:var(--paper);text-align:left}
+.contact h2{font-size:clamp(3.4rem,11vw,9.5rem)}
+.contact p{max-width:44ch;color:#CFC8B6;margin:1.4rem 0 2rem}
+.contact .btn{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.contact .btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+footer{padding:3rem 0 2rem;border-top:1px solid var(--line)}
+footer .wrap{display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+footer ul{list-style:none;margin:0;padding:0;display:flex;gap:1.5rem;flex-wrap:wrap}
+footer small{display:block;width:100%;color:var(--soft)}
+
+/* detail dialog */
+dialog{border:2px solid var(--ink);background:var(--ivory);color:var(--ink);padding:0;width:min(880px,94vw);max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(35,33,30,.6)}
+.d-body{display:grid;grid-template-columns:1fr 1fr}
+.d-body .thumb{aspect-ratio:3/4;background:var(--paper);position:relative;border-right:1px solid var(--line)}
+.d-body .thumb>img{width:100%;height:100%;object-fit:cover}
+.gal{position:absolute;left:10px;bottom:10px;display:flex;gap:8px}
+.gal button{width:56px;height:74px;padding:0;border:2px solid var(--paper);background:var(--paper);cursor:pointer}
+.gal img{width:100%;height:100%;object-fit:cover}
+.d-info{padding:2rem;display:flex;flex-direction:column;gap:.9rem}
+.d-info h3{font-size:2.8rem}
+.d-info dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.3rem 1rem;font-size:.95rem}
+.d-info dt{color:var(--soft)}.d-info dd{margin:0}
+.close{position:absolute;right:12px;top:12px;background:var(--ivory);border:2px solid var(--ink);font:700 .9rem var(--body);padding:.3rem .7rem;cursor:pointer}
+
+@media (max-width:860px){
+  .menu-btn{display:block}
+  .nav ul{display:none;position:absolute;left:0;right:0;top:68px;flex-direction:column;gap:0;background:var(--ivory);border-bottom:1px solid var(--line)}
+  .nav ul.open{display:flex}
+  .nav ul a{display:block;padding:1rem clamp(18px,4vw,48px);border:0;border-top:1px solid var(--line)}
+  .hero .wrap,.wholesale .wrap,.story .wrap,.d-body{grid-template-columns:1fr}
+  .hero .photo{order:-1;aspect-ratio:4/4.2;margin-bottom:34px!important}
+  .arrivals{display:grid;grid-template-columns:1fr 1fr}
+  .arrivals .card:nth-child(n){grid-column:auto;margin-top:0}
+  .arrivals .card:nth-child(3){grid-column:1/-1}
+  .d-body .thumb{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<div class="announce">Shirts wholesale from 10 pieces. <a href="#wholesale">See pack prices</a>. Retail available too.</div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Thrift Raja, back to top"><img class="logo-img" alt="" width="48" height="48">Thrift Raja</a>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">Menu</button>
+    <nav aria-label="Main">
+      <ul id="menu">
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="#new">New Arrivals</a></li>
+        <li><a href="#shop" data-cat-link>Categories</a></li>
+        <li><a href="#wholesale">Wholesale</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" style="padding:0">
+  <div class="wrap">
+    <div>
+      <h1><span>Worn once.</span><span class="indent">Worn well.</span><span>Worn again.</span></h1>
+      <p>Graded pre-loved shirts and jackets, sold in wholesale packs. Retail shirts available too. Order or enquire straight on WhatsApp.</p>
+      <div class="cta-row">
+        <a class="btn" href="#shop">Explore Collection</a>
+        <a class="btn ghost" href="#wholesale">Wholesale Enquiries</a>
+      </div>
+    </div>
+    <figure class="photo logo-hero" style="margin:0" id="heroPhoto">
+      <img class="logo-img hero-logo" alt="Thrift Raja logo: a lion in a crown and sunglasses sitting on a pile of clothes and suitcases" width="400" height="400">
+    </figure>
+  </div>
+</section>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>The Collection</h2>
+      <p><span class="demo-tag">Sample styles</span> Real photos from current stock. Shirts are sold in packs, see <a href="#wholesale">wholesale prices</a>.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by category" id="filters"></div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+</section>
+
+<section id="new">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>New Arrivals</h2>
+      <p>The latest pieces in. Tap any piece to see details and ask about it.</p>
+    </div>
+    <div class="arrivals" id="arrivals"></div>
+  </div>
+</section>
+
+<section id="wholesale" class="wholesale">
+  <div class="wrap">
+    <div>
+      <h2>Buying in bulk?</h2>
+      <p style="max-width:40ch;color:var(--soft);margin:1.6rem 0 2rem">Shirts and jackets are sold in packs and bales for resellers and shops. Pick a pack on the right, or message us for other quantities.</p>
+      <a class="btn" data-wa="wholesale" href="#">Send a wholesale enquiry</a>
+    </div>
+    <div>
+      <div class="packs">
+        <h3>Shirts <span>A+ grade</span></h3>
+        <div class="pack-group">
+<a class="pack" data-wa="custom" data-msg="Hi Thrift Raja, I'd like the 10 shirts pack (A+ grade, ₹1,500). Is it available?" href="#"><span class="q">10 shirts</span><b>₹1,500</b><small>Order this pack on WhatsApp</small></a>
+<a class="pack" data-wa="custom" data-msg="Hi Thrift Raja, I'd like the 50 shirts pack (A+ grade, ₹5,000). Is it available?" href="#"><span class="q">50 shirts</span><b>₹5,000</b><small>Order this pack on WhatsApp</small></a>
+<a class="pack" data-wa="custom" data-msg="Hi Thrift Raja, I'd like the 100 shirts pack (A+ grade, ₹10,000). Is it available?" href="#"><span class="q">100 shirts</span><b>₹10,000</b><small>Order this pack on WhatsApp</small></a>
+        </div>
+        <h3>Jackets <span>B grade</span></h3>
+        <div class="pack-group">
+<a class="pack" data-wa="custom" data-msg="Hi Thrift Raja, I'd like the 10 jackets pack (B grade, ₹1,600). Is it available?" href="#"><span class="q">10 jackets</span><b>₹1,600</b><small>Order this pack on WhatsApp</small></a>
+<a class="pack" data-wa="custom" data-msg="Hi Thrift Raja, I'd like the jacket bale of 100 to 130 pieces (B grade, ₹9,000). Is it available?" href="#"><span class="q">Jacket bale, 100 to 130 pieces</span><b>₹9,000</b><small>Order this pack on WhatsApp</small></a>
+        </div>
+      </div>
+      <p class="note">Shirts are available retail too. Message us for single pieces or other quantities.</p>
+    </div>
+  </div>
+</section>
+
+<section id="story" class="story" style="border-top:1px solid var(--line)">
+  <div class="wrap">
+    <p class="pull">Clothes with a past, ready for a second life.</p>
+    <div>
+      <h2 style="font-size:clamp(2.4rem,5vw,4rem);margin-bottom:1.4rem">Our story</h2>
+      <p>[Placeholder copy] Thrift Raja started on Instagram and WhatsApp, where every piece is chosen by hand and sold directly to the people who wear it.</p>
+      <p>[Placeholder copy] Replace this paragraph with the owner's own words: how they source, what they look for, and why pre-loved clothing matters to them.</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap split"><div>
+    <h2>Ask us<br>anything.</h2>
+    <p>Spotted something you like? Message us with the piece name and your size. We reply on WhatsApp.</p>
+    <a class="btn" data-wa="general" href="#">Chat on WhatsApp</a></div>
+    <img class="logo-img big" alt="Thrift Raja logo: a lion in a crown and sunglasses sitting on a pile of clothes and suitcases" width="300" height="300">
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <strong class="logo" style="font-size:1.5rem"><img class="logo-img" alt="" width="48" height="48">Thrift Raja</strong>
+    <ul>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#new">New Arrivals</a></li>
+      <li><a href="#wholesale">Wholesale</a></li>
+      <li><a data-wa="general" href="#">WhatsApp</a></li>
+      <li><a id="igLink" href="#" target="_blank" rel="noopener">Instagram</a></li>
+    </ul>
+    <small>Demo website. Brand name, product names and story text are placeholders. Pack prices are as supplied by the owner; confirm before launch.</small>
+  </div>
+</footer>
+
+<dialog id="detail" aria-labelledby="dTitle">
+  <button class="close" id="dClose" aria-label="Close product details">Close</button>
+  <div class="d-body">
+    <div class="thumb" id="dThumb"></div>
+    <div class="d-info">
+      <span class="demo-tag" style="align-self:flex-start">Sample style</span>
+      <h3 id="dTitle"></h3>
+      <p id="dDesc" style="margin:0;color:var(--soft)"></p>
+      <dl><dt>Category</dt><dd id="dCat"></dd><dt>Grade</dt><dd>A+ (shirts)</dd><dt>Sold as</dt><dd>Packs of 10, 50 or 100. Retail on request.</dd><dt>Stock</dt><dd>Styles vary, confirm on WhatsApp</dd></dl>
+      <a class="btn" id="dWa" href="#" target="_blank" rel="noopener">Ask about this style</a>
+    </div>
+  </div>
+</dialog>
+
+<script>
+/* Photos are embedded so the page works as one file */
+const LOGO = "logo.webp";
+const IMG = {
+  n1:"photos/n1.jpg",
+  n2:"photos/n2.jpg",
+  n3:"photos/n3.jpg",
+  n5:"photos/n5.jpg",
+  i1:"photos/i1.jpg",
+  i2:"photos/i2.jpg",
+  i3:"photos/i3.jpg",
+  i4:"photos/i4.jpg",
+  i5:"photos/i5.jpg",
+  i6:"photos/i6.jpg",
+  i7:"photos/i7.jpg",
+  i9:"photos/i9.jpg"
+};
+
+/* ============ 1. EDIT THESE ============ */
+const CONFIG = {
+  brand: "Thrift Raja",                  // also change the wordmark in the HTML
+  whatsappNumber: "919025163484",        // country code + number, digits only
+  instagramUrl: "https://www.instagram.com/", // replace with the shop's profile link
+};
+
+/* ============ 2. PRODUCTS ============ */
+// Photos are the client's own. Names are descriptions only; size and price still to be confirmed.
+const PRODUCTS = [
+  { id:1, name:"Mint & Navy Panel Shirt", category:"Colour-block", images:[IMG.i1], alt:"Mint green shirt with navy striped panel on the right side, on a hanger", desc:"Mint cotton-look shirt with a bold navy striped panel down one side.", isNew:true },
+  { id:2, name:"Navy Printed Shirt", category:"Prints", images:[IMG.i2,IMG.i9], alt:"Navy long-sleeve shirt with white line-art print and pink round motifs", desc:"Navy shirt with an all-over white line print, pink round motifs and a contrast placket.", isNew:true },
+  { id:3, name:"Navy, Red & White Colour-block Shirt", category:"Colour-block", images:[IMG.i3], alt:"Long-sleeve shirt in navy, red and white horizontal colour blocks", desc:"Crisp long-sleeve shirt in navy, red and white horizontal blocks.", isNew:true },
+  { id:4, name:"Dusty Pink Pinstripe Shirt", category:"Stripes", images:[IMG.i5,IMG.i4], alt:"Dusty pink pinstripe shirt with chest pocket on a hanger", desc:"Soft pinstripe shirt in dusty pink with a chest pocket.", isNew:false },
+  { id:5, name:"Blue Buffalo Check Shirt", category:"Checks", images:[IMG.i7,IMG.i6], alt:"Blue and navy buffalo check shirt with chest pocket on a hanger", desc:"Bright blue and navy buffalo check with a chest pocket.", isNew:false },
+  { id:6, name:"Tan Textured Shirt", category:"Solids", images:[IMG.n1], alt:"Tan textured long-sleeve shirt with a chest pocket, on a hanger", desc:"Warm tan shirt with a soft textured weave and a chest pocket.", isNew:false },
+  { id:7, name:"Light Grey Shirt", category:"Solids", images:[IMG.n2], alt:"Light grey shirt with a chest pocket, close-up on a hanger", desc:"Light grey shirt with a classic collar and chest pocket.", isNew:false },
+  { id:8, name:"Grey Check Shirt with Swirl Print", category:"Checks", images:[IMG.n3], alt:"Light grey check shirt with a dark swirl pattern, on a hanger", desc:"Light check shirt with a dark swirl pattern and a chest pocket.", isNew:false },
+  { id:9, name:"Navy Windowpane Check Shirt", category:"Checks", images:[IMG.n5], alt:"Navy shirt with a tan windowpane check and a chest pocket, on a hanger", desc:"Navy shirt with a fine tan windowpane check and a chest pocket.", isNew:false }
+];
+const CATEGORIES = ["All","Checks","Stripes","Prints","Colour-block","Solids"];
+
+/* ============ 3. CODE (no need to edit below) ============ */
+const $ = s => document.querySelector(s);
+const waLink = text => `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+
+function card(p){
+  return `<button class="card" data-id="${p.id}" aria-label="View details for ${p.name}">
+    <div class="thumb"><img src="${p.images[0]}" alt="${p.alt}" loading="lazy"></div>
+    <h3>${p.name}</h3>
+    <div class="meta">${p.category}</div>
+    <span class="more">View details</span></button>`;
+}
+let active = "All";
+function renderGrid(){
+  const list = PRODUCTS.filter(p => active==="All" || p.category===active);
+  $("#grid").innerHTML = list.map(p=>card(p)).join("");
+}
+function renderFilters(){
+  $("#filters").innerHTML = CATEGORIES.map(c=>`<button class="chip" aria-pressed="${c===active}" data-cat="${c}">${c}</button>`).join("");
+}
+function setCat(c){ active=c; renderFilters(); renderGrid(); }
+$("#filters").addEventListener("click",e=>{ const b=e.target.closest("[data-cat]"); if(b) setCat(b.dataset.cat); });
+$("[data-cat-link]").addEventListener("click",()=>setCat("All"));
+renderFilters(); renderGrid();
+$("#arrivals").innerHTML = PRODUCTS.filter(p=>p.isNew).slice(0,3).map(p=>card(p)).join("");
+
+/* product detail */
+const dlg = $("#detail");
+function openDetail(id){
+  const p = PRODUCTS.find(x=>x.id==id); if(!p) return;
+  $("#dTitle").textContent=p.name; $("#dDesc").textContent=p.desc; $("#dCat").textContent=p.category;
+  $("#dThumb").innerHTML=`<img id="dMain" src="${p.images[0]}" alt="${p.alt}">`+(p.images.length>1?`<div class="gal">${p.images.map((s,i)=>`<button data-i="${i}" aria-label="Show photo ${i+1} of ${p.images.length}"><img src="${s}" alt=""></button>`).join("")}</div>`:"");
+  $("#dThumb").onclick=e=>{const b=e.target.closest("[data-i]");if(b)$("#dMain").src=p.images[b.dataset.i];};
+  $("#dWa").href=waLink(`Hi ${CONFIG.brand}, I like the style "${p.name}". Is it in stock, and do you have it in wholesale or retail?`);
+  dlg.showModal();
+}
+document.addEventListener("click",e=>{ const c=e.target.closest(".card"); if(c) openDetail(c.dataset.id); });
+$("#dClose").addEventListener("click",()=>dlg.close());
+dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+
+/* whatsapp buttons */
+const MSG = {
+  general:`Hi ${CONFIG.brand}, I found you through your website and have a question.`,
+  wholesale:`Hi ${CONFIG.brand}, I'd like to enquire about wholesale. I'm looking for: (categories, sizes, rough quantity).`
+};
+document.querySelectorAll("[data-wa]").forEach(a=>{
+  a.href=waLink(MSG[a.dataset.wa]||a.dataset.msg); a.target="_blank"; a.rel="noopener";
+  a.setAttribute("aria-label",a.textContent.trim()+" (opens WhatsApp)");
+});
+$("#igLink").href=CONFIG.instagramUrl;
+
+document.querySelectorAll(".logo-img").forEach(i=>i.src=LOGO);
+
+/* mobile menu */
+const mb=$("#menuBtn"), menu=$("#menu");
+mb.addEventListener("click",()=>{ const o=menu.classList.toggle("open"); mb.setAttribute("aria-expanded",o); });
+menu.addEventListener("click",e=>{ if(e.target.tagName==="A"){ menu.classList.remove("open"); mb.setAttribute("aria-expanded","false"); } });
+</script>
+</body>
+</html>
